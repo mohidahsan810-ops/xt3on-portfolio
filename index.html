@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"/>
+<meta name="theme-color" content="#07070a"/>
+<meta name="color-scheme" content="dark"/>
+<title>XT3ON Portfolio — Roblox Game Developer</title>
+<meta name="description" content="Official Roblox Developer Portfolio of XT3ON. Full-stack game development, custom physics, systems architecture, UI/UX, and live ops."/>
+<meta property="og:title" content="XT3ON Portfolio — Roblox Game Developer"/>
+<meta property="og:description" content="Official Roblox Developer Portfolio of XT3ON. 5 live games, 2.9M+ plays, high-retention loops."/>
+<meta property="og:type" content="website"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@500;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+:root {
+  --font-display: 'Orbitron', sans-serif;
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --bg: #07070a;
+  --surface: #0b0b10;
+  --accent: #7df9ff;
+  --accent-hot: #9efaff;
+  --accent-glow: rgba(125, 249, 255, 0.4);
+  --gold: #f5a623;
+  --chrome-grad: linear-gradient(180deg, #ffffff 0%, #e0e0ec 50%, #9090a2 100%);
+  --holo-grad: linear-gradient(110deg, #ffffff 10%, #7df9ff 50%, #b072ff 90%);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+body {
+  background: var(--bg);
+  color: #ededf5;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TYPOGRAPHY ── */
+.font-display { font-family: var(--font-display); }
+.font-mono { font-family: var(--font-mono); }
+.label-mono {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .24em;
+  font-size: .68rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.text-chrome {
+  background: var(--chrome-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-stroke {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+  color: transparent;
+}
+.text-holo {
+  background: var(--holo-grad);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+/* ── BORDERS & GLASS ── */
+/* ── BORDERS, GLASS & INTERACTIVE BOX HOVER ── */
+.glass {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.chrome-border {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform .35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color .3s ease, box-shadow .35s ease;
+}
+.chrome-border:not(header *):not(nav *):hover {
+  transform: translateY(-6px) scale(1.015);
+  border-color: rgba(125, 249, 255, 0.65);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.65), 0 0 30px rgba(125, 249, 255, 0.22);
+}
+.holo-border {
+  border: 1px solid rgba(125, 249, 255, 0.3);
+  box-shadow: 0 0 25px rgba(125, 249, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: transform .35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color .3s ease, box-shadow .35s ease;
+}
+.holo-border:hover {
+  border-color: rgba(125, 249, 255, 0.85);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(125, 249, 255, 0.3);
+}
+
+/* Light sheen sweep flare across boxes on hover */
+.chrome-border:not(header *):not(nav *)::after, .holo-border::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 70%;
+  height: 200%;
+  background: linear-gradient(105deg, transparent 30%, rgba(125, 249, 255, 0.22) 50%, transparent 70%);
+  transform: rotate(25deg);
+  pointer-events: none;
+  transition: none;
+  z-index: 20;
+}
+.chrome-border:not(header *):not(nav *):hover::after, .holo-border:hover::after {
+  left: 170%;
+  transition: left 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ── BACKGROUNDS ── */
+.hud-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* ── BUTTONS ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .85rem 1.6rem;
+  font-family: var(--font-display);
+  font-size: .75rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #07070a;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 24px var(--accent-glow);
+  transition: all .22s ease;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary:hover {
+  background: var(--accent-hot);
+  box-shadow: 0 0 36px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.btn-magnet {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .85rem 1.6rem;
+  font-family: var(--font-display);
+  font-size: .75rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #ededf5;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  transition: all .22s ease;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-magnet:hover {
+  border-color: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(125, 249, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ── ACCENTS ── */
+.dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
+.dot-accent { background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: pulse-dot 2s ease-in-out infinite; }
+.dot-gold { background: var(--gold); box-shadow: 0 0 8px var(--gold); animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.75); } }
+@keyframes shimmer { 0% { background-position: 0 50%; } 100% { background-position: 200% 50%; } }
+
+/* ── MARQUEE ── */
+.marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── CARD HOVER & PLAYFUL WOBBLE ── */
+@keyframes playful-wobble {
+  0% { transform: translateY(0) rotate(0deg) scale(1); }
+  25% { transform: translateY(-7px) rotate(-1.4deg) scale(1.02); }
+  50% { transform: translateY(-9px) rotate(1.2deg) scale(1.025); }
+  75% { transform: translateY(-7px) rotate(-0.5deg) scale(1.02); }
+  100% { transform: translateY(-8px) rotate(0deg) scale(1.02); }
+}
+
+.game-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform .35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color .3s ease, box-shadow .35s ease;
+  will-change: transform;
+}
+.game-card:hover {
+  animation: playful-wobble 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  border-color: rgba(125, 249, 255, 0.8) !important;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.75), 0 0 35px rgba(125, 249, 255, 0.28), inset 0 0 25px rgba(125, 249, 255, 0.06) !important;
+}
+.game-card:hover img {
+  transform: scale(1.08);
+  filter: brightness(1.08);
+}
+.game-card:hover .card-arrow {
+  transform: translate(4px, -4px) rotate(-15deg);
+  color: var(--accent);
+}
+.card-arrow {
+  transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1), color .2s ease;
+}
+
+/* ── SKILL BARS ── */
+.skill-track { height: 4px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden; position: relative; }
+.skill-fill { height: 100%; border-radius: 999px; position: relative; }
+.skill-fill::after {
+  content: ''; position: absolute; right: 0; top: 50%;
+  transform: translateY(-50%); width: 6px; height: 6px;
+  border-radius: 50%; background: #ffffff; box-shadow: 0 0 8px currentColor;
+}
+
+/* ── SCROLL PROGRESS BAR ── */
+#scroll-progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #b072ff 0%, #7df9ff 50%, #ffffff 100%);
+  box-shadow: 0 0 14px rgba(125,249,255,0.8), 0 0 30px rgba(125,249,255,0.4);
+  z-index: 99999;
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+/* Stagger children */
+.stagger > * { opacity: 0; transform: translateY(30px); transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1); }
+.stagger.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+.stagger.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.08s; }
+.stagger.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.16s; }
+.stagger.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.24s; }
+.stagger.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
+
+/* ── COUNT-UP STAT HIGHLIGHT ── */
+[data-count] {
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+/* ── TILT 3D HOVER ON CARDS ── */
+.tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: box-shadow 0.35s ease;
+}
+.tilt-card-inner {
+  transform: translateZ(0);
+  transition: transform 0.1s ease-out;
+  transform-style: preserve-3d;
+}
+
+/* ── BACK TO TOP BUTTON ── */
+#back-to-top {
+  position: fixed;
+  bottom: 36px;
+  right: 28px;
+  width: 46px;
+  height: 46px;
+  background: rgba(7,7,10,0.95);
+  border: 1px solid rgba(125,249,255,0.4);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px) scale(0.85);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, box-shadow 0.2s ease;
+  pointer-events: none;
+  font-size: 1rem;
+  box-shadow: 0 0 20px rgba(125,249,255,0.12);
+}
+#back-to-top.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+#back-to-top:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 35px rgba(125,249,255,0.35);
+  background: rgba(125,249,255,0.08);
+}
+
+/* ── SECTION DIVIDER GLOW LINE ── */
+.glow-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(125,249,255,0.3) 30%, rgba(176,114,255,0.3) 70%, transparent 100%);
+  margin: 0;
+}
+
+/* ── TOAST ── */
+#toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: #0d0d14;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  padding: 13px 28px;
+  z-index: 9999999;
+  box-shadow: 0 0 35px rgba(125, 249, 255, 0.3);
+  transition: transform .32s cubic-bezier(0.2, 0.8, 0.2, 1), opacity .32s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+#toast.active { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ── ACCORDIONS ── */
+.faq-content { max-height: 0; overflow: hidden; transition: max-height .35s ease, opacity .35s ease; opacity: 0; }
+.faq-content.open { max-height: 250px; opacity: 1; }
+.faq-icon { transition: transform .28s ease; }
+.faq-item.open .faq-icon { transform: rotate(45deg); color: var(--accent); }
+
+/* ── CUSTOM MOUSE CURSOR ── */
+#cursor-ring {
+  position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+  border: 1px solid rgba(125, 249, 255, 0.45); border-radius: 50%;
+  pointer-events: none; z-index: 999999; transform: translate(-50%, -50%);
+  transition: width .2s ease, height .2s ease, border-color .2s ease, background .2s ease;
+}
+#cursor-dot {
+  position: fixed; top: 0; left: 0; width: 5px; height: 5px;
+  background: var(--accent); border-radius: 50%; pointer-events: none;
+  z-index: 999999; transform: translate(-50%, -50%); box-shadow: 0 0 6px var(--accent);
+}
+@media (hover: none) { #cursor-ring, #cursor-dot { display: none !important; } }
+
+/* ── ENTRANCE INTRO ── */
+#intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999999;
+  background: #07070a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#intro-screen::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: intro-line-grow 0.8s 1.8s cubic-bezier(0.65,0,0.35,1) forwards;
+}
+@keyframes intro-line-grow {
+  to { transform: scaleX(1); }
+}
+#intro-screen.hide {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+.intro-char {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3rem, 10vw, 8rem);
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  opacity: 0;
+  transform: translateY(60px) scaleY(1.3);
+  transition: opacity 0.5s cubic-bezier(0.34,1.56,0.64,1), transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  text-shadow: 0 0 40px rgba(125,249,255,0.5);
+}
+.intro-char.space { width: 0.4em; }
+.intro-char.visible {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+}
+.intro-char.accent-c {
+  color: var(--accent);
+  text-shadow: 0 0 30px var(--accent), 0 0 60px rgba(125,249,255,0.5);
+}
+#intro-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: rgba(125,249,255,0.7);
+  margin-top: 1.2rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+#intro-sub.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+#intro-bar {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent));
+  box-shadow: 0 0 20px var(--accent);
+  transition: width 1.2s cubic-bezier(0.65,0,0.35,1);
+}
+/* ── NAVBAR LOGO ANIMATED TEXT ── */
+@keyframes logo-flicker {
+  0%, 92%, 100% { opacity: 1; text-shadow: 0 0 12px rgba(125,249,255,0.6), 0 0 28px rgba(125,249,255,0.3); }
+  93% { opacity: 0.6; text-shadow: 0 0 4px rgba(125,249,255,0.2); }
+  95% { opacity: 1; text-shadow: 0 0 20px rgba(125,249,255,0.9), 0 0 40px rgba(125,249,255,0.5); }
+  97% { opacity: 0.7; text-shadow: 0 0 6px rgba(125,249,255,0.3); }
+}
+@keyframes logo-underscore {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+#nav-logo-text {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(125,249,255,0.6), 0 0 28px rgba(125,249,255,0.3);
+  animation: logo-flicker 8s ease-in-out infinite;
+  cursor: pointer;
+  position: relative;
+  transition: letter-spacing 0.3s ease;
+}
+#nav-logo-text:hover {
+  letter-spacing: 0.32em;
+  text-shadow: 0 0 20px rgba(125,249,255,1), 0 0 50px rgba(125,249,255,0.6), 0 0 80px rgba(125,249,255,0.3);
+  animation: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Scroll Progress Bar -->
+<div id="scroll-progress-bar"></div>
+
+<!-- XT3ON Character Drop Entrance Screen -->
+<div id="intro-screen">
+  <div id="intro-bar"></div>
+  <div style="display:flex; align-items:center; gap:0; overflow:hidden;" id="intro-chars-wrap">
+    <!-- Characters injected by JS -->
+  </div>
+  <div id="intro-sub">Roblox Game Developer Portfolio</div>
+</div>
+
+<!-- Cursor Elements -->
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
+
+<!-- Back To Top Button -->
+<button id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+</button>
+
+<!-- Toast -->
+<div id="toast">COPIED @xt3on TO CLIPBOARD!</div>
+
+<!-- ══════════════════════════ NAVBAR ══════════════════════════ -->
+<header class="fixed top-0 inset-x-0 z-50 h-20 flex items-center" style="background: rgba(7, 7, 10, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+  <div class="max-w-[1400px] w-full mx-auto px-6 md:px-10 flex items-center justify-between gap-4">
+    
+    <!-- Animated Glow Logo — no box -->
+    <a href="#hero" style="text-decoration:none; display:flex; align-items:center; gap:12px;">
+      <span id="nav-logo-text">XT3ON</span>
+      <div class="leading-none hidden sm:block">
+        <div class="label-mono text-[0.6rem] text-white/50 tracking-[0.28em]">ROBLOX DEVELOPER</div>
+        <div class="label-mono text-[0.65rem] text-white font-bold tracking-[0.2em] mt-0.5">PORTFOLIO // 2026</div>
+      </div>
+    </a>
+
+    <!-- Nav Links -->
+    <nav class="hidden lg:flex items-center gap-1 glass rounded-full px-4 py-1.5 border border-white/10">
+      <a href="#hero" class="label-mono px-3 py-1.5 hover:text-white transition-colors" style="text-decoration:none">HOME</a>
+      <a href="#games" class="label-mono px-3 py-1.5 hover:text-white transition-colors" style="text-decoration:none">GAMES</a>
+      <a href="#stats" class="label-mono px-3 py-1.5 hover:text-white transition-colors" style="text-decoration:none">STATS</a>
+      <a href="#skills" class="label-mono px-3 py-1.5 hover:text-white transition-colors" style="text-decoration:none">SKILLS</a>
+      <a href="#process" class="label-mono px-3 py-1.5 hover:text-white transition-colors" style="text-decoration:none">PROCESS</a>
+      <a href="#faq" class="label-mono px-3 py-1.5 hover:text-white transition-colors" style="text-decoration:none">FAQ</a>
+      <a href="#contact" class="label-mono px-3 py-1.5 hover:text-white transition-colors" style="text-decoration:none">CONTACT</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-3">
+      <button onclick="handleDiscordConnect()" class="btn-primary !hidden lg:!inline-flex py-2 px-4 text-xs">
+        <span>CONNECT ON DISCORD</span>
+        <span>↗</span>
+      </button>
+      <button id="menu-btn" type="button" aria-label="Toggle menu" class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 border border-white/15 glass cursor-pointer">
+        <span class="w-5 h-px bg-white"></span>
+        <span class="w-5 h-px bg-white"></span>
+        <span class="w-5 h-px bg-white"></span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mob-drawer" class="fixed inset-0 z-40 bg-[#07070a]/98 flex flex-col p-8 pt-28 space-y-3 lg:hidden" style="display:none">
+  <a href="#hero" class="label-mono text-xl py-3 border-b border-white/10" onclick="closeMobMenu()">HOME</a>
+  <a href="#games" class="label-mono text-xl py-3 border-b border-white/10" onclick="closeMobMenu()">GAMES</a>
+  <a href="#stats" class="label-mono text-xl py-3 border-b border-white/10" onclick="closeMobMenu()">STATS</a>
+  <a href="#skills" class="label-mono text-xl py-3 border-b border-white/10" onclick="closeMobMenu()">SKILLS & CRAFT</a>
+  <a href="#process" class="label-mono text-xl py-3 border-b border-white/10" onclick="closeMobMenu()">PROCESS PIPELINE</a>
+  <a href="#faq" class="label-mono text-xl py-3 border-b border-white/10" onclick="closeMobMenu()">FAQ</a>
+  <a href="#contact" class="label-mono text-xl py-3 border-b border-white/10" onclick="closeMobMenu()">CONTACT</a>
+  <div class="pt-6">
+    <button onclick="handleDiscordConnect();closeMobMenu()" class="btn-primary w-full justify-center">
+      ADD ON DISCORD: xt3on ↗
+    </button>
+  </div>
+</div>
+
+
+<main>
+
+<!-- ══════════════════════════ HERO SECTION ══════════════════════════ -->
+<section id="hero" class="relative min-h-screen pt-36 pb-20 overflow-hidden hud-grid noise flex flex-col justify-center">
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 80% 30%, rgba(125, 249, 255, 0.07), transparent 55%), radial-gradient(circle at 10% 85%, rgba(176, 114, 255, 0.05), transparent 50%);"></div>
+
+  <div class="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-10">
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+
+      <!-- Left Hero Content -->
+      <div class="lg:col-span-7">
+        
+        <!-- Official Portfolio Badge -->
+        <div class="flex items-center gap-3 mb-6">
+          <span class="px-3 py-1 rounded-full border border-accent/40 bg-accent/[0.08] label-mono text-accent text-xs font-semibold flex items-center gap-2">
+            <span class="dot dot-accent"></span>ROBLOX DEVELOPER PORTFOLIO
+          </span>
+          <span class="label-mono text-white/40">// EST. 2022</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="font-display font-black leading-[0.88] tracking-tight mb-8">
+          <span class="block text-stroke text-5xl sm:text-7xl md:text-8xl xl:text-9xl">BUILT BY</span>
+          <span class="block text-stroke text-5xl sm:text-7xl md:text-8xl xl:text-9xl">ONE.</span>
+          <span class="block text-chrome text-5xl sm:text-7xl md:text-8xl xl:text-9xl">PLAYED BY</span>
+          <span class="block text-chrome text-5xl sm:text-7xl md:text-8xl xl:text-9xl">MILLIONS.</span>
+        </h1>
+
+        <!-- Bio -->
+        <p class="text-white/80 max-w-xl text-base md:text-lg leading-relaxed mb-6">
+          <span class="text-white font-bold">XT3ON</span> — solo full-stack Roblox engineer & technical designer. Scripting, custom physics, systems architecture, UI/UX, VFX, and animation. Five live platform titles. High-retention loops built from concept to live ops.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3 font-mono text-xs tracking-wider uppercase text-white/50 mb-10">
+          <span>⚡ 24-HOUR DISCORD REPLY</span>
+          <span>·</span>
+          <span>🔒 FIXED MILESTONES</span>
+          <span>·</span>
+          <span>📦 FULL SOURCE HANDOVER</span>
+        </div>
+
+        <!-- Direct Actions -->
+        <div class="flex flex-wrap items-center gap-4 mb-10">
+          <a href="#games" class="btn-primary">
+            <span>EXPLORE GAMES</span>
+            <span>↘</span>
+          </a>
+          <button onclick="handleDiscordConnect()" class="btn-magnet">
+            <span>ADD ON DISCORD (xt3on)</span>
+            <span>⎘</span>
+          </button>
+        </div>
+
+        <!-- Direct Discord Connect Box -->
+        <div onclick="handleDiscordConnect()" class="cursor-pointer inline-flex items-center gap-4 glass chrome-border p-4 group max-w-md w-full">
+          <div class="w-12 h-12 border border-accent/40 bg-accent/10 flex items-center justify-center shrink-0 group-hover:border-accent group-hover:shadow-[0_0_15px_rgba(125,249,255,0.4)] transition-all">
+            <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current text-accent" aria-hidden="true">
+              <path d="M20.317 4.369A19.79 19.79 0 0 0 16.558 3.2a.075.075 0 0 0-.079.037c-.34.607-.717 1.397-.98 2.02a18.27 18.27 0 0 0-5.487 0c-.265-.633-.652-1.413-.995-2.02a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 5.18 4.369a.07.07 0 0 0-.032.027C2.36 8.69 1.61 12.882 1.973 17.024a.083.083 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.030.078.078 0 0 0 .084-.027 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.128 12.299 12.299 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.030.077.077 0 0 0 .032-.054c.5-5.177-.838-9.328-3.549-13.661a.061.061 0 0 0-.031-.029ZM8.02 14.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.955 2.418-2.157 2.418Zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z"></path>
+            </svg>
+          </div>
+          <div class="leading-tight flex-1">
+            <span class="block label-mono text-accent">PRIMARY CONTACT // DISCORD</span>
+            <span class="block font-display font-bold text-sm tracking-wider text-chrome mt-0.5">@xt3on</span>
+          </div>
+          <span class="text-white/40 group-hover:text-accent transition-colors text-sm font-mono">CLICK TO COPY & ADD ↗</span>
+        </div>
+
+      </div>
+
+      <!-- Right Telemetry Panel -->
+      <div class="lg:col-span-5">
+        <div class="chrome-border glass p-6 relative overflow-hidden">
+          
+          <div class="flex items-center justify-between label-mono mb-6">
+            <span class="text-accent flex items-center gap-2">
+              <span class="dot dot-accent"></span>LIVE.CATALOG.TELEMETRY
+            </span>
+            <span>VERIFIED STATS</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="border border-white/10 p-4 bg-white/[0.01]">
+              <div class="label-mono">Total Plays</div>
+              <div class="mt-2 font-display text-2xl font-bold text-chrome">2.9M+</div>
+            </div>
+            <div class="border border-white/10 p-4 bg-white/[0.01]">
+              <div class="label-mono">Playing Now</div>
+              <div class="mt-2 font-display text-2xl font-bold text-chrome">1,500+</div>
+            </div>
+            <div class="border border-white/10 p-4 bg-white/[0.01]">
+              <div class="label-mono">Favorites</div>
+              <div class="mt-2 font-display text-2xl font-bold text-chrome">64K+</div>
+            </div>
+            <div class="border border-white/10 p-4 bg-white/[0.01]">
+              <div class="label-mono">Avg Like Ratio</div>
+              <div class="mt-2 font-display text-2xl font-bold text-accent">92.4%</div>
+            </div>
+          </div>
+
+          <!-- Wave Graph -->
+          <div class="h-28 relative overflow-hidden border border-white/10 mb-6 bg-black/40">
+            <svg viewBox="0 0 400 110" class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="waveGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#7df9ff" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#7df9ff" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,75 Q40,55 80,70 T160,40 T240,65 T320,30 T400,45" fill="none" stroke="#7df9ff" stroke-width="1.8"/>
+              <path d="M0,75 Q40,55 80,70 T160,40 T240,65 T320,30 T400,45 L400,110 L0,110 Z" fill="url(#waveGrad)"/>
+            </svg>
+          </div>
+
+          <div class="flex items-center justify-between label-mono text-[0.62rem]">
+            <span>ENGINE: ROBLOX LUAU</span>
+            <span>STATUS: OPEN FOR NEW WORK</span>
+          </div>
+
+        </div>
+
+        <!-- 4 Stat Pills -->
+        <div class="grid grid-cols-4 gap-2 mt-3">
+          <div class="glass px-3 py-2 border border-white/10 text-center">
+            <div class="label-mono text-[0.55rem]">GAMES</div>
+            <div class="font-display text-xs font-bold text-chrome mt-1">5 LIVE</div>
+          </div>
+          <div class="glass px-3 py-2 border border-white/10 text-center">
+            <div class="label-mono text-[0.55rem]">ROLE</div>
+            <div class="font-display text-xs font-bold text-chrome mt-1">FULL STACK</div>
+          </div>
+          <div class="glass px-3 py-2 border border-white/10 text-center">
+            <div class="label-mono text-[0.55rem]">EXP</div>
+            <div class="font-display text-xs font-bold text-chrome mt-1">2+ YRS</div>
+          </div>
+          <div class="glass px-3 py-2 border border-white/10 text-center">
+            <div class="label-mono text-[0.55rem]">CONTACT</div>
+            <div class="font-display text-xs font-bold text-accent mt-1">xt3on</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Marquee Ticker -->
+  <div class="mt-20 border-y border-white/10 py-4 overflow-hidden bg-black/30">
+    <div class="marquee-track font-display tracking-widest text-sm text-white/50">
+      <div class="flex gap-10 shrink-0 pr-10">
+        <span>LUAU</span><span class="text-accent">◆</span>
+        <span>NETWORKING</span><span class="text-accent">◆</span>
+        <span>PROCEDURAL RNG</span><span class="text-accent">◆</span>
+        <span>VFX SHADERS</span><span class="text-accent">◆</span>
+        <span>UI / UX DESIGN</span><span class="text-accent">◆</span>
+        <span>CUSTOM VEHICLE PHYSICS</span><span class="text-accent">◆</span>
+        <span>MONETIZATION PIPELINE</span><span class="text-accent">◆</span>
+        <span>LIVE OPERATIONS</span><span class="text-accent">◆</span>
+      </div>
+      <div class="flex gap-10 shrink-0 pr-10" aria-hidden="true">
+        <span>LUAU</span><span class="text-accent">◆</span>
+        <span>NETWORKING</span><span class="text-accent">◆</span>
+        <span>PROCEDURAL RNG</span><span class="text-accent">◆</span>
+        <span>VFX SHADERS</span><span class="text-accent">◆</span>
+        <span>UI / UX DESIGN</span><span class="text-accent">◆</span>
+        <span>CUSTOM VEHICLE PHYSICS</span><span class="text-accent">◆</span>
+        <span>MONETIZATION PIPELINE</span><span class="text-accent">◆</span>
+        <span>LIVE OPERATIONS</span><span class="text-accent">◆</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ GAMES SHOWCASE (5 LIVE GAMES) ══════════════════════════ -->
+<section id="games" class="py-32 relative hud-grid noise overflow-hidden">
+  <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative">
+
+    <div class="flex items-end justify-between flex-wrap gap-6 mb-12 reveal">
+      <div>
+        <div class="label-mono text-accent mb-2">// SHIPPED PLATFORM EXPERIENCES</div>
+        <h2 class="font-display font-black text-5xl md:text-7xl text-chrome tracking-tight">FEATURED GAMES</h2>
+      </div>
+      <p class="max-w-sm text-white/60 text-sm">Five titles live on Roblox with authentic verified thumbnails and real gameplay systems.</p>
+    </div>
+
+    <div class="space-y-6">
+
+      <!-- 01 FEATURED: Climb Up Mountain For LuckyBlock -->
+      <div class="game-card holo-border glass relative overflow-hidden min-h-[500px] flex flex-col justify-end p-8 md:p-12 group">
+        <!-- Thumbnail Layer -->
+        <div class="absolute inset-0 z-0">
+          <img src="https://tr.rbxcdn.com/180DAY-a57f7ad73eb34ed57f553c204cf095a1/512/512/Image/Png/noFilter"
+               alt="Climb Up Mountain For LuckyBlock"
+               class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-60"/>
+          <div class="absolute inset-0 bg-gradient-to-r from-[#07070a] via-[#07070a]/80 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#07070a] via-[#07070a]/60 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-3xl">
+          <div class="flex items-center gap-3 label-mono mb-4">
+            <span class="px-2.5 py-1 bg-accent/20 text-accent border border-accent/40 font-bold">FEATURED // 001</span>
+            <span class="flex items-center gap-1.5 text-white/80"><span class="dot dot-accent"></span>LIVE ON ROBLOX</span>
+          </div>
+
+          <h3 class="font-display font-black text-4xl sm:text-6xl text-white tracking-tight leading-tight mb-4">
+            Climb Up Mountain<br/>For LuckyBlock
+          </h3>
+
+          <p class="text-white/75 text-base md:text-lg mb-8 max-w-xl">
+            High-altitude obby climb featuring RNG reward mechanics, persistent loot tables, custom jump physics, and viral player loops.
+          </p>
+
+          <!-- Verified Numbers Row -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+            <div class="glass p-3 border border-white/10">
+              <div class="label-mono text-[0.6rem]">Total Plays</div>
+              <div class="font-display text-sm text-chrome mt-1">500K+</div>
+            </div>
+            <div class="glass p-3 border border-white/10">
+              <div class="label-mono text-[0.6rem]">Playing Now</div>
+              <div class="font-display text-sm text-chrome mt-1">320+</div>
+            </div>
+            <div class="glass p-3 border border-white/10">
+              <div class="label-mono text-[0.6rem]">Favorites</div>
+              <div class="font-display text-sm text-chrome mt-1">12K+</div>
+            </div>
+            <div class="glass p-3 border border-white/10">
+              <div class="label-mono text-[0.6rem]">Approval</div>
+              <div class="font-display text-sm text-accent mt-1">93%+</div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="https://www.roblox.com/games/90644888369999/Climb-Up-Mountain-For-LuckyBlock" target="_blank" rel="noopener noreferrer" class="btn-primary">
+              <span>PLAY ON ROBLOX</span>
+              <span class="card-arrow">↗</span>
+            </a>
+            <div class="flex flex-wrap gap-2">
+              <span class="label-mono px-3 py-1.5 border border-white/15 bg-white/[0.02]">LUCKY BLOCKS</span>
+              <span class="label-mono px-3 py-1.5 border border-white/15 bg-white/[0.02]">REBIRTH CYCLE</span>
+              <span class="label-mono px-3 py-1.5 border border-white/15 bg-white/[0.02]">LEADERBOARDS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Supporting Games Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- 02: My Baddie -->
+        <a href="https://www.roblox.com/games/99015431185958/My-Baddie" target="_blank" rel="noopener noreferrer" class="game-card chrome-border glass block relative overflow-hidden" style="text-decoration:none">
+          <div class="aspect-[16/10] relative overflow-hidden bg-black/60">
+            <img src="https://tr.rbxcdn.com/180DAY-a65e08a89e22eed0278def408033716b/512/512/Image/Png/noFilter" alt="My Baddie" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b10] via-transparent to-black/30"></div>
+            <div class="absolute top-3 left-3 label-mono px-2 py-0.5 bg-black/60 border border-white/15 text-[0.55rem] text-accent">002 // LIVE</div>
+            <div class="absolute bottom-3 right-3 w-8 h-8 rounded border border-white/20 glass flex items-center justify-center">
+              <span class="card-arrow text-white text-sm">↗</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-display font-black text-xl text-chrome mb-1">My Baddie</h4>
+            <p class="text-xs text-white/60 mb-4 line-clamp-2">Avatar styling, social roleplay, and custom outfit customization loops.</p>
+            <div class="grid grid-cols-3 gap-1.5 border-t border-white/10 pt-3">
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">Plays</span><span class="font-display text-xs font-bold text-white">1.4M+</span></div>
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">Now</span><span class="font-display text-xs font-bold text-white">680</span></div>
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">♥</span><span class="font-display text-xs font-bold text-accent">92%</span></div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 03: Don't Drop The Brainrots -->
+        <a href="https://www.roblox.com/games/74295091572755/Don't-Drop-The-Brainrots" target="_blank" rel="noopener noreferrer" class="game-card chrome-border glass block relative overflow-hidden" style="text-decoration:none">
+          <div class="aspect-[16/10] relative overflow-hidden bg-black/60">
+            <img src="https://tr.rbxcdn.com/180DAY-cbb0cceaceb49c583c45dcb5b919407c/512/512/Image/Png/noFilter" alt="Don't Drop The Brainrots" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b10] via-transparent to-black/30"></div>
+            <div class="absolute top-3 left-3 label-mono px-2 py-0.5 bg-black/60 border border-white/15 text-[0.55rem] text-accent">003 // LIVE</div>
+            <div class="absolute bottom-3 right-3 w-8 h-8 rounded border border-white/20 glass flex items-center justify-center">
+              <span class="card-arrow text-white text-sm">↗</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-display font-black text-xl text-chrome mb-1">Don't Drop The Brainrots</h4>
+            <p class="text-xs text-white/60 mb-4 line-clamp-2">Viral trending obby with balance mechanics and chaotic physics.</p>
+            <div class="grid grid-cols-3 gap-1.5 border-t border-white/10 pt-3">
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">Plays</span><span class="font-display text-xs font-bold text-white">540K+</span></div>
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">Now</span><span class="font-display text-xs font-bold text-white">240</span></div>
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">♥</span><span class="font-display text-xs font-bold text-accent">90%</span></div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 04: Knockout Karts -->
+        <a href="https://www.roblox.com/games/100386334104552/Knockout-Karts" target="_blank" rel="noopener noreferrer" class="game-card chrome-border glass block relative overflow-hidden" style="text-decoration:none">
+          <div class="aspect-[16/10] relative overflow-hidden bg-black/60">
+            <img src="https://tr.rbxcdn.com/180DAY-a179849347b1d31759cc25af67836551/512/512/Image/Png/noFilter" alt="Knockout Karts" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b10] via-transparent to-black/30"></div>
+            <div class="absolute top-3 left-3 label-mono px-2 py-0.5 bg-black/60 border border-white/15 text-[0.55rem] text-accent">004 // LIVE</div>
+            <div class="absolute bottom-3 right-3 w-8 h-8 rounded border border-white/20 glass flex items-center justify-center">
+              <span class="card-arrow text-white text-sm">↗</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-display font-black text-xl text-chrome mb-1">Knockout Karts</h4>
+            <p class="text-xs text-white/60 mb-4 line-clamp-2">Chaotic kart combat with drift mechanics and battle royale bumper physics.</p>
+            <div class="grid grid-cols-3 gap-1.5 border-t border-white/10 pt-3">
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">Plays</span><span class="font-display text-xs font-bold text-white">320K+</span></div>
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">Now</span><span class="font-display text-xs font-bold text-white">180</span></div>
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">♥</span><span class="font-display text-xs font-bold text-accent">89%</span></div>
+            </div>
+          </div>
+        </a>
+
+        <!-- 05: Mutate the Brainrot -->
+        <a href="https://www.roblox.com/games/117106833785981/Mutate-the-Brainrot" target="_blank" rel="noopener noreferrer" class="game-card chrome-border glass block relative overflow-hidden" style="text-decoration:none">
+          <div class="aspect-[16/10] relative overflow-hidden bg-black/60">
+            <img src="https://tr.rbxcdn.com/180DAY-d15701030583b88448fa5b782a1d2b2e/512/512/Image/Png/noFilter" alt="Mutate the Brainrot" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b10] via-transparent to-black/30"></div>
+            <div class="absolute top-3 left-3 label-mono px-2 py-0.5 bg-black/60 border border-white/15 text-[0.55rem] text-accent">005 // LIVE</div>
+            <div class="absolute bottom-3 right-3 w-8 h-8 rounded border border-white/20 glass flex items-center justify-center">
+              <span class="card-arrow text-white text-sm">↗</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="font-display font-black text-xl text-chrome mb-1">Mutate the Brainrot</h4>
+            <p class="text-xs text-white/60 mb-4 line-clamp-2">Crafting and mutation progression loop with persistent datastores.</p>
+            <div class="grid grid-cols-3 gap-1.5 border-t border-white/10 pt-3">
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">Plays</span><span class="font-display text-xs font-bold text-white">150K+</span></div>
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">Now</span><span class="font-display text-xs font-bold text-white">80</span></div>
+              <div class="text-center"><span class="label-mono text-[0.55rem] block">♥</span><span class="font-display text-xs font-bold text-accent">91%</span></div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ VERIFIED STATS ══════════════════════════ -->
+<section id="stats" class="py-28 relative hud-grid noise overflow-hidden" style="background:#09090e">
+  <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative">
+    <div class="mb-14 max-w-3xl reveal">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="dot dot-gold"></span>
+        <span class="label-mono text-gold">// AUDITED METRICS</span>
+      </div>
+      <h2 class="font-display text-5xl md:text-7xl font-black tracking-tight">
+        <span class="text-chrome">PROOF IN</span> <span class="text-holo">NUMBERS.</span>
+      </h2>
+      <p class="mt-4 text-white/60 max-w-xl">Cumulative organic statistics across all five shipped games.</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-5 stagger">
+      <div class="chrome-border glass p-6">
+        <div class="flex items-center justify-between label-mono"><span>SHIPPED TITLES</span><span>01</span></div>
+        <div class="mt-4 font-display font-black text-5xl text-chrome" data-count="5" data-suffix="">5</div>
+        <div class="label-mono text-accent mt-2">LIVE ON ROBLOX</div>
+      </div>
+      <div class="chrome-border glass p-6 md:col-span-2">
+        <div class="flex items-center justify-between label-mono"><span>TOTAL PLAYS</span><span>02</span></div>
+        <div class="mt-4 font-display font-black text-6xl md:text-7xl text-chrome" data-count="2900000" data-suffix="M+" data-format="M">2.9M+</div>
+        <div class="label-mono text-accent mt-2">ORGANIC VISITS ACROSS EXPERIENCES</div>
+      </div>
+      <div class="chrome-border glass p-6">
+        <div class="flex items-center justify-between label-mono"><span>AVG APPROVAL</span><span>03</span></div>
+        <div class="mt-4 font-display font-black text-5xl text-accent" data-count="92" data-suffix="%+">92%+</div>
+        <div class="label-mono text-white/60 mt-2">POSITIVE RATINGS AVERAGE</div>
+      </div>
+      <div class="chrome-border glass p-6">
+        <div class="flex items-center justify-between label-mono"><span>FAVORITES</span><span>04</span></div>
+        <div class="mt-4 font-display font-black text-5xl text-chrome" data-count="64000" data-suffix="K+" data-format="K">64K+</div>
+        <div class="label-mono text-white/60 mt-2">TOTAL PLAYER SAVES</div>
+      </div>
+      <div class="chrome-border glass p-6">
+        <div class="flex items-center justify-between label-mono"><span>EXPERIENCE</span><span>05</span></div>
+        <div class="mt-4 font-display font-black text-5xl text-chrome">2+ YRS</div>
+        <div class="label-mono text-white/60 mt-2">PRODUCTION DEVELOPER</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ TECHNICAL SKILLS & CRAFT ══════════════════════════ -->
+<section id="skills" class="py-32 relative hud-grid noise overflow-hidden">
+  <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative">
+
+    <div class="flex items-end justify-between flex-wrap gap-6 mb-12">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="dot dot-accent"></span>
+          <span class="label-mono text-accent">// TECHNICAL ARCHITECTURE</span>
+        </div>
+        <h2 class="font-display font-black text-5xl md:text-7xl text-chrome tracking-tight">SKILLS & CRAFT</h2>
+      </div>
+      <p class="max-w-md text-white/60 text-sm">Full mastery across every tier of Roblox development — from custom memory optimization to tactile vector HUD interfaces.</p>
+    </div>
+
+    <!-- 3 Core Nodes -->
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Node 01: Engineering -->
+      <div class="chrome-border glass p-6">
+        <div class="flex items-center justify-between label-mono mb-4">
+          <span class="text-accent font-bold">NODE.01 // ENGINEERING</span>
+          <span>CALIBRATED</span>
+        </div>
+
+        <div class="space-y-4 mb-6">
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Luau OOP & Architecture</span><span class="text-accent">98%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:98%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Network Replication & Sec</span><span class="text-accent">95%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:95%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Custom Physics & Raycasts</span><span class="text-accent">94%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:94%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Datastores & Anti-Exploit</span><span class="text-accent">92%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:92%"></div></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-1.5 pt-4 border-t border-white/10">
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">ProfileService</span>
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">Buffer Bitpack</span>
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">StreamingEnabled</span>
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">MemoryStore</span>
+        </div>
+      </div>
+
+      <!-- Node 02: Visuals & UI -->
+      <div class="chrome-border glass p-6">
+        <div class="flex items-center justify-between label-mono mb-4">
+          <span class="text-accent font-bold">NODE.02 // VISUALS & UI</span>
+          <span>CALIBRATED</span>
+        </div>
+
+        <div class="space-y-4 mb-6">
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">UI / UX HUD Architecture</span><span class="text-accent">96%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:96%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">VFX & Particle Systems</span><span class="text-accent">92%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:92%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Blender 3D Environment</span><span class="text-accent">88%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:88%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Character & Rig Animation</span><span class="text-accent">89%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:89%"></div></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-1.5 pt-4 border-t border-white/10">
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">Spring Physics</span>
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">TweenService</span>
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">Custom Shaders</span>
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">Vector Assets</span>
+        </div>
+      </div>
+
+      <!-- Node 03: Monetization & Ops -->
+      <div class="chrome-border glass p-6">
+        <div class="flex items-center justify-between label-mono mb-4">
+          <span class="text-accent font-bold">NODE.03 // RETENTION & OPS</span>
+          <span>CALIBRATED</span>
+        </div>
+
+        <div class="space-y-4 mb-6">
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Monetization Funnels</span><span class="text-accent">95%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:95%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Analytics & A/B Testing</span><span class="text-accent">91%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:91%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Live Ops Patches</span><span class="text-accent">94%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:94%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1"><span class="text-white">Solo End-to-End Directing</span><span class="text-accent">98%</span></div>
+            <div class="skill-track"><div class="skill-fill bg-accent" style="width:98%"></div></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-1.5 pt-4 border-t border-white/10">
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">Gamepasses</span>
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">Dev Products</span>
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">Battle Pass Loop</span>
+          <span class="label-mono text-[0.6rem] px-2.5 py-1 border border-white/10 bg-white/[0.02]">Conversion Boost</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ WORKFLOW PIPELINE ══════════════════════════ -->
+<section id="process" class="py-32 relative hud-grid noise overflow-hidden" style="background:#09090e">
+  <div class="max-w-[1400px] mx-auto px-6 md:px-10 relative">
+    <div class="mb-16 max-w-3xl">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="dot dot-accent"></span>
+        <span class="label-mono text-accent">// SHIPPED PIPELINE</span>
+      </div>
+      <h2 class="font-display text-5xl md:text-7xl font-black tracking-tight leading-tight">
+        <span class="text-chrome">FROM CONCEPT TO</span><br/><span class="text-holo">FRONT PAGE.</span>
+      </h2>
+      <p class="mt-4 text-white/60 max-w-xl">Zero overhead. A clean engineering flow designed to validate core dopamine loops and launch rapidly.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div class="chrome-border glass p-6 relative">
+        <div class="font-display font-black text-2xl text-accent mb-4">01</div>
+        <div class="label-mono text-gold mb-1">CONCEPT</div>
+        <h4 class="font-display font-bold text-lg text-white mb-2">Find the Hook</h4>
+        <p class="text-xs text-white/60 leading-relaxed">Algorithm research, core gameplay loop mapping, monetization structure before coding.</p>
+      </div>
+
+      <div class="chrome-border glass p-6 relative">
+        <div class="font-display font-black text-2xl text-accent mb-4">02</div>
+        <div class="label-mono text-gold mb-1">PROTOTYPE</div>
+        <h4 class="font-display font-bold text-lg text-white mb-2">Build the Fun</h4>
+        <p class="text-xs text-white/60 leading-relaxed">Rapid greybox validation in Studio. Test feel, camera, controls, and session dopamine loops.</p>
+      </div>
+
+      <div class="chrome-border glass p-6 relative">
+        <div class="font-display font-black text-2xl text-accent mb-4">03</div>
+        <div class="label-mono text-gold mb-1">PRODUCTION</div>
+        <h4 class="font-display font-bold text-lg text-white mb-2">Ship it Tight</h4>
+        <p class="text-xs text-white/60 leading-relaxed">Full Luau systems, clean HUD UI, responsive soundscapes, VFX, and anti-exploit architecture.</p>
+      </div>
+
+      <div class="chrome-border glass p-6 relative">
+        <div class="font-display font-black text-2xl text-accent mb-4">04</div>
+        <div class="label-mono text-gold mb-1">LAUNCH</div>
+        <h4 class="font-display font-bold text-lg text-white mb-2">Algorithm Pass</h4>
+        <p class="text-xs text-white/60 leading-relaxed">Soft launch telemetry, icon CTR testing, player session length tuning, and discovery push.</p>
+      </div>
+
+      <div class="chrome-border glass p-6 relative">
+        <div class="font-display font-black text-2xl text-accent mb-4">05</div>
+        <div class="label-mono text-gold mb-1">LIVE OPS</div>
+        <h4 class="font-display font-bold text-lg text-white mb-2">Scale & Retain</h4>
+        <p class="text-xs text-white/60 leading-relaxed">Weekly content patches, seasonal live events, economy balancing, and bug monitoring.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ FAQ ACCORDION ══════════════════════════ -->
+<section id="faq" class="py-32 relative hud-grid noise overflow-hidden">
+  <div class="max-w-[1100px] mx-auto px-6 md:px-10 relative">
+
+    <div class="mb-14">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="dot dot-gold"></span>
+        <span class="label-mono text-gold">// CLARIFICATIONS</span>
+      </div>
+      <h2 class="font-display font-black text-5xl md:text-7xl text-chrome tracking-tight">
+        FREQUENTLY ASKED
+      </h2>
+    </div>
+
+    <div class="space-y-3">
+
+      <div class="faq-item chrome-border glass overflow-hidden">
+        <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-5 text-left cursor-pointer bg-transparent">
+          <span class="font-display font-bold text-base md:text-lg text-white">01 // Are you available for full game development?</span>
+          <span class="faq-icon font-display text-xl text-white/50">+</span>
+        </button>
+        <div class="faq-content px-5 pb-5 text-sm text-white/70">
+          Yes. I handle full-scope development from first concept to published game, or targeted contracts for core scripting, UI overhauls, custom vehicle physics, and monetization systems.
+        </div>
+      </div>
+
+      <div class="faq-item chrome-border glass overflow-hidden">
+        <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-5 text-left cursor-pointer bg-transparent">
+          <span class="font-display font-bold text-base md:text-lg text-white">02 // What is the fastest way to get in touch?</span>
+          <span class="faq-icon font-display text-xl text-white/50">+</span>
+        </button>
+        <div class="faq-content px-5 pb-5 text-sm text-white/70">
+          Discord is my primary channel. Add <span class="text-accent font-bold">@xt3on</span> directly and share your game idea, reference links, and target release date.
+        </div>
+      </div>
+
+      <div class="faq-item chrome-border glass overflow-hidden">
+        <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-5 text-left cursor-pointer bg-transparent">
+          <span class="font-display font-bold text-base md:text-lg text-white">03 // Who owns the game code and assets?</span>
+          <span class="faq-icon font-display text-xl text-white/50">+</span>
+        </button>
+        <div class="faq-content px-5 pb-5 text-sm text-white/70">
+          You own 100% of all intellectual property, source code, models, and design assets upon milestone completion. Delivery is provided as an uncopylocked place file (.rbxl).
+        </div>
+      </div>
+
+      <div class="faq-item chrome-border glass overflow-hidden">
+        <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-5 text-left cursor-pointer bg-transparent">
+          <span class="font-display font-bold text-base md:text-lg text-white">04 // What genre of games do you specialize in?</span>
+          <span class="faq-icon font-display text-xl text-white/50">+</span>
+        </button>
+        <div class="faq-content px-5 pb-5 text-sm text-white/70">
+          High-retention obbies, RNG progression loops, kart & combat vehicle physics, social avatar worlds, and trending viral formats.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ CONTACT / GET IN TOUCH ══════════════════════════ -->
+<section id="contact" class="py-32 relative hud-grid noise overflow-hidden" style="background:#09090e">
+  <div class="max-w-[1200px] mx-auto px-6 md:px-10 relative">
+    
+    <div class="holo-border glass p-8 md:p-12 relative overflow-hidden">
+      <div class="max-w-2xl mb-8">
+        <div class="label-mono text-accent mb-2">// DIRECT CONTACT</div>
+        <h2 class="font-display font-black text-4xl sm:text-6xl text-white tracking-tight leading-tight mb-4">
+          LET'S BUILD<br/><span class="text-holo">SOMETHING LOUD.</span>
+        </h2>
+        <p class="text-white/75 text-base md:text-lg">
+          Need an experienced developer to build, script, or overhaul your game? Connect with me directly on Discord.
+        </p>
+      </div>
+
+      <!-- Clean Aligned Discord Card -->
+      <div class="border border-accent/40 bg-accent/[0.05] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 border border-accent/40 bg-accent/10 flex items-center justify-center shrink-0">
+            <svg viewBox="0 0 24 24" class="w-8 h-8 fill-current text-accent" aria-hidden="true">
+              <path d="M20.317 4.369A19.79 19.79 0 0 0 16.558 3.2a.075.075 0 0 0-.079.037c-.34.607-.717 1.397-.98 2.02a18.27 18.27 0 0 0-5.487 0c-.265-.633-.652-1.413-.995-2.02a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 5.18 4.369a.07.07 0 0 0-.032.027C2.36 8.69 1.61 12.882 1.973 17.024a.083.083 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.030.078.078 0 0 0 .084-.027 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.128 12.299 12.299 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.030.077.077 0 0 0 .032-.054c.5-5.177-.838-9.328-3.549-13.661a.061.061 0 0 0-.031-.029ZM8.02 14.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.955 2.418-2.157 2.418Zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="label-mono text-accent text-xs">DISCORD USERNAME</div>
+            <div class="font-display font-black text-2xl sm:text-3xl text-white">@xt3on</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          <button onclick="handleDiscordConnect()" class="btn-primary flex-1 md:flex-none justify-center">
+            <span>COPY & OPEN DISCORD</span>
+            <span>↗</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+
+<!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+<footer class="border-t border-white/10 py-10 bg-[#07070a]">
+  <div class="max-w-[1400px] mx-auto px-6 md:px-10 flex flex-wrap items-center justify-between gap-6">
+    <div class="flex items-center gap-3">
+      <span style="font-family:var(--font-display); font-weight:900; font-size:0.9rem; letter-spacing:0.2em; color:var(--accent); text-shadow: 0 0 12px rgba(125,249,255,0.5);">XT3ON</span>
+      <div>
+        <div class="font-display font-bold text-xs tracking-widest text-white">ROBLOX DEVELOPER PORTFOLIO</div>
+        <div class="label-mono text-[0.6rem] text-white/50">© 2026 / ALL RIGHTS RESERVED</div>
+      </div>
+    </div>
+
+    <div class="label-mono text-accent">DISCORD: xt3on</div>
+    <div class="label-mono text-white/40">END OF SIGNAL</div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════ SCRIPTS ══════════════════════════ -->
+<script>
+// ─── CHARACTER DROP INTRO ANIMATION ───
+window.addEventListener('DOMContentLoaded', () => {
+  const intro    = document.getElementById('intro-screen');
+  const wrap     = document.getElementById('intro-chars-wrap');
+  const sub      = document.getElementById('intro-sub');
+  const bar      = document.getElementById('intro-bar');
+
+  // Build character spans
+  const text     = 'XT3ON PORTFOLIO';
+  // Which indices are "accent" (the 3 accent chars)
+  const accentIdx = new Set([0,1,2,3,4]); // XT3ON in cyan, rest white
+
+  text.split('').forEach((ch, i) => {
+    const span = document.createElement('span');
+    if (ch === ' ') {
+      span.className = 'intro-char space';
+    } else {
+      span.className = 'intro-char' + (accentIdx.has(i) ? ' accent-c' : '');
+      span.textContent = ch;
+    }
+    span.style.transitionDelay = (0.06 * i) + 's';
+    wrap.appendChild(span);
+  });
+
+  // Start the cascade after a brief pause
+  setTimeout(() => {
+    wrap.querySelectorAll('.intro-char').forEach(c => c.classList.add('visible'));
+  }, 150);
+
+  // Subtitle after characters land
+  setTimeout(() => {
+    sub.classList.add('visible');
+  }, 150 + (text.length * 60) + 200);
+
+  // Progress bar sweep
+  setTimeout(() => {
+    bar.style.width = '100%';
+  }, 200);
+
+  // Exit: slide the entire screen up and away
+  const totalCharTime = 150 + (text.length * 60) + 200;
+  setTimeout(() => {
+    intro.style.transition = 'transform 0.75s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.3s ease 0.5s';
+    intro.style.transform = 'translateY(-100%)';
+    intro.style.opacity = '0';
+    setTimeout(() => { intro.style.display = 'none'; }, 800);
+  }, totalCharTime + 900);
+});
+
+// ─── INTERACTIVE MOUSE CURSOR ───
+const ring = document.getElementById('cursor-ring');
+const dot = document.getElementById('cursor-dot');
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let ringX = mouseX, ringY = mouseY;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+});
+
+function animateCursor() {
+  ringX += (mouseX - ringX) * 0.2;
+  ringY += (mouseY - ringY) * 0.2;
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Enlarge cursor on interactive items
+document.querySelectorAll('a, button, .game-card, .chrome-border').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ring.style.width = '48px';
+    ring.style.height = '48px';
+    ring.style.borderColor = 'rgba(125, 249, 255, 0.85)';
+    ring.style.background = 'rgba(125, 249, 255, 0.08)';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.width = '32px';
+    ring.style.height = '32px';
+    ring.style.borderColor = 'rgba(125, 249, 255, 0.45)';
+    ring.style.background = 'transparent';
+  });
+});
+
+// ─── MOBILE DRAWER ───
+const menuBtn = document.getElementById('menu-btn');
+const mobDrawer = document.getElementById('mob-drawer');
+let menuOpen = false;
+
+if (menuBtn) {
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobDrawer.style.display = menuOpen ? 'flex' : 'none';
+  });
+}
+function closeMobMenu() {
+  menuOpen = false;
+  mobDrawer.style.display = 'none';
+}
+
+// ─── FAQ ACCORDION ───
+function toggleFAQ(btn) {
+  const item = btn.closest('.faq-item');
+  const content = item.querySelector('.faq-content');
+  const isOpen = item.classList.contains('open');
+
+  document.querySelectorAll('.faq-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-content').classList.remove('open');
+  });
+
+  if (!isOpen) {
+    item.classList.add('open');
+    content.classList.add('open');
+  }
+}
+
+// ─── DISCORD CONNECTION HELPER ───
+let toastTimer;
+function handleDiscordConnect() {
+  const user = 'xt3on';
+  
+  // 1. Copy username to clipboard
+  navigator.clipboard.writeText(user).then(() => {
+    showToast("COPIED @" + user + " — PASTE TO ADD ON DISCORD!");
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = user;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast("COPIED @" + user + " — PASTE TO ADD ON DISCORD!");
+  });
+
+  // 2. Open Discord app/web directly after 400ms
+  setTimeout(() => {
+    window.open('https://discord.com/app', '_blank');
+  }, 450);
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  if (msg) toast.textContent = msg;
+  clearTimeout(toastTimer);
+  toast.classList.add('active');
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('active');
+  }, 3000);
+}
+
+// ─── SCROLL PROGRESS BAR ───
+const progressBar = document.getElementById('scroll-progress-bar');
+function updateScrollProgress() {
+  const scrolled  = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrolled / docHeight) * 100 : 0;
+  progressBar.style.width = pct + '%';
+}
+window.addEventListener('scroll', updateScrollProgress, { passive: true });
+
+// ─── BACK TO TOP ───
+const btt = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+  btt.classList.toggle('show', window.scrollY > 400);
+}, { passive: true });
+
+// ─── COUNT-UP ANIMATION ───
+function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+function animateCount(el) {
+  if (el.dataset.counted) return;
+  el.dataset.counted = '1';
+  const raw    = parseInt(el.dataset.count, 10);
+  const fmt    = el.dataset.format || '';
+  const suffix = el.dataset.suffix || '';
+  const dur    = 1800;
+  const start  = performance.now();
+  function step(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / dur, 1);
+    const eased = easeOutCubic(progress);
+    let val = Math.round(eased * raw);
+    if (fmt === 'M') el.textContent = (val / 1000000).toFixed(1) + suffix;
+    else if (fmt === 'K') el.textContent = Math.round(val / 1000) + suffix;
+    else el.textContent = val + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ─── INTERSECTION OBSERVER — reveal, stagger, count-up ───
+const revealIO = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    el.classList.add('visible');
+    // count-up: fire on any [data-count] inside or the element itself
+    el.querySelectorAll('[data-count]').forEach(animateCount);
+    if (el.hasAttribute('data-count')) animateCount(el);
+    revealIO.unobserve(el);
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+// Apply to all reveal classes + stat cards
+document.querySelectorAll('.reveal, .reveal-left, .reveal-scale, .stagger').forEach(el => revealIO.observe(el));
+// Also observe individual data-count items not inside a stagger
+document.querySelectorAll('[data-count]').forEach(el => {
+  if (!el.closest('.stagger')) revealIO.observe(el);
+});
+
+// ─── 3D MAGNETIC TILT ON GAME CARDS ───
+document.querySelectorAll('.game-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect   = card.getBoundingClientRect();
+    const cx     = rect.left + rect.width  / 2;
+    const cy     = rect.top  + rect.height / 2;
+    const dx     = (e.clientX - cx) / (rect.width  / 2);
+    const dy     = (e.clientY - cy) / (rect.height / 2);
+    const tiltX  = -dy * 9;
+    const tiltY  =  dx * 9;
+    card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-8px) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transition = 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1)';
+    card.style.transform  = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
+    setTimeout(() => { card.style.transition = ''; }, 600);
+  });
+  card.addEventListener('mouseenter', () => {
+    card.style.transition = 'transform 0.12s ease-out';
+  });
+});
+</script>
+
+</body>
+</html>
